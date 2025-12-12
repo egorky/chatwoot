@@ -44,7 +44,12 @@ echo "$FILES_TO_MODIFY"
 echo "---"
 
 # 2. Iterar sobre la lista, crear respaldo, modificar y registrar.
-for file in $FILES_TO_MODIFY; do
+echo "$FILES_TO_MODIFY" | while IFS= read -r file; do
+    # Omitir líneas vacías que puedan aparecer en la salida de grep
+    if [ -z "$file" ]; then
+        continue
+    fi
+
     echo "Procesando '$file'..."
 
     # Crear respaldo si aún no existe.
@@ -60,6 +65,7 @@ for file in $FILES_TO_MODIFY; do
     done
 
     # Ejecutar sed con todas las expresiones.
+    # shellcheck disable=SC2086
     sed -i $SED_EXPRESSIONS "$file"
 
     # Registrar el archivo modificado.
