@@ -18,4 +18,13 @@ find . -type f -name "*.back" -print0 | while IFS= read -r -d '' backup_file; do
     fi
 done
 
+# Remove log files and other artifacts created by modification scripts
+ARTIFACTS=("branding_changed_files.txt")
+for artifact in "${ARTIFACTS[@]}"; do
+    if [ -f "$artifact" ]; then
+        echo "Removing artifact '$artifact'..."
+        rm -f "$artifact"
+    fi
+done
+
 echo "Restore script finished successfully."

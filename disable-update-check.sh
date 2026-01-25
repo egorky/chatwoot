@@ -22,8 +22,12 @@ fi
 
 # Comentar la línea que contiene el componente UpdateBanner.
 # Usamos sed para encontrar la línea y envolverla en comentarios HTML.
-# La opción -i.back crea un respaldo antes de modificar el archivo.
+# Crear respaldo si aún no existe.
+if [ ! -f "${APP_VUE_FILE}.back" ]; then
+    cp "$APP_VUE_FILE" "${APP_VUE_FILE}.back"
+fi
+
 echo "Comentando el componente UpdateBanner en '$APP_VUE_FILE'..."
-sed -i.back "s|${SEARCH_PATTERN}|<!-- ${SEARCH_PATTERN} -->|" "$APP_VUE_FILE"
+sed -i "s|${SEARCH_PATTERN}|<!-- ${SEARCH_PATTERN} -->|" "$APP_VUE_FILE"
 
 echo "El banner de actualización ha sido desactivado exitosamente."

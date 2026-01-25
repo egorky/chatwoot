@@ -23,10 +23,13 @@ fi
 
 # Encontrar todos los archivos .json en el directorio de i18n y sus subdirectorios.
 # Para cada archivo, usar sed para reemplazar la palabra (ignorando mayúsculas y minúsculas)
-# y crear un archivo de respaldo.
+# y crear un archivo de respaldo (si aún no existe).
 find "$I18N_DIRECTORY" -type f -name "*.json" -print0 | while IFS= read -r -d '' file; do
     echo "Procesando '$file'..."
-    sed -i.back "s/${SEARCH_WORD}/${REPLACE_WORD}/gi" "$file"
+    if [ ! -f "${file}.back" ]; then
+        cp "$file" "${file}.back"
+    fi
+    sed -i "s/${SEARCH_WORD}/${REPLACE_WORD}/gi" "$file"
 done
 
 # --- Limpieza ---
