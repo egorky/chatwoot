@@ -65,6 +65,8 @@ class ChatwootHub
   end
 
   def self.sync_with_hub
+    return { 'plan' => 'enterprise', 'plan_quantity' => 1000, 'version' => Chatwoot.config[:version] } if ENV['DISABLE_TELEMETRY'] == 'true'
+
     begin
       info = instance_config
       info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
@@ -75,10 +77,12 @@ class ChatwootHub
     rescue StandardError => e
       ChatwootExceptionTracker.new(e).capture_exception
     end
-    parsed_response
+    parsed_response || { 'plan' => 'enterprise', 'plan_quantity' => 1000, 'version' => Chatwoot.config[:version] }
   end
 
   def self.register_instance(company_name, owner_name, owner_email)
+    return if ENV['DISABLE_TELEMETRY'] == 'true'
+
     info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
     RestClient.post(REGISTRATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
@@ -88,6 +92,8 @@ class ChatwootHub
   end
 
   def self.send_push(fcm_options)
+    return if ENV['DISABLE_TELEMETRY'] == 'true'
+
     info = { fcm_options: fcm_options }
     RestClient.post(PUSH_NOTIFICATION_URL, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
