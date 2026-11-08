@@ -83,6 +83,8 @@ class ChatwootHub
   end
 
   def self.sync_with_hub(refresh_billing: false)
+    return { 'plan' => 'enterprise', 'plan_quantity' => 1000, 'version' => Chatwoot.config[:version] } if ENV['DISABLE_TELEMETRY'] == 'true'
+
     begin
       info = instance_config
       info[:refresh_billing] = true if refresh_billing
@@ -94,10 +96,12 @@ class ChatwootHub
     rescue StandardError => e
       ChatwootExceptionTracker.new(e).capture_exception
     end
-    parsed_response
+    parsed_response || { 'plan' => 'enterprise', 'plan_quantity' => 1000, 'version' => Chatwoot.config[:version] }
   end
 
   def self.register_instance(company_name, owner_name, owner_email)
+    return if ENV['DISABLE_TELEMETRY'] == 'true'
+
     info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
     RestClient.post(registration_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
@@ -107,6 +111,8 @@ class ChatwootHub
   end
 
   def self.send_push(fcm_options)
+    return if ENV['DISABLE_TELEMETRY'] == 'true'
+
     send_push_with_response(fcm_options)
   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
     Rails.logger.error "Exception: #{e.message}"

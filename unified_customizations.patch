@@ -1,0 +1,941 @@
+diff --git a/BRANDING_GUIDE.md b/BRANDING_GUIDE.md
+new file mode 100644
+index 00000000..82ddb796
+--- /dev/null
++++ b/BRANDING_GUIDE.md
+@@ -0,0 +1,53 @@
++# Guía de Personalización de Marca de Chatwoot
++
++Esta guía explica cómo modificar los logos y el esquema de colores de la plataforma Chatwoot para que coincida con su propia marca.
++
++## Personalización de Logos
++
++La aplicación utiliza varios archivos de logo en diferentes ubicaciones. Para un cambio de marca completo, deberá reemplazar los siguientes archivos de logo con sus propias versiones. Se recomienda mantener las mismas dimensiones y formatos de archivo para evitar problemas de alineación en la interfaz de usuario.
++
++### Logos Principales
++
++-   **Logo del Panel de Control:** El logo principal que aparece en la barra lateral y en otras áreas clave.
++    -   **Archivo:** `app/javascript/dashboard/components-next/icon/Logo.vue`
++    -   **Recomendación:** Este es un componente de Vue que contiene el SVG del logo directamente. Deberá editar este archivo y reemplazar el SVG existente con su propio SVG.
++
++-   **Activos de Marca Públicos:** Estos logos se utilizan en páginas públicas, correos electrónicos y otros activos.
++    -   **Archivos:**
++        -   `public/brand-assets/logo.svg` (versión clara)
++        -   `public/brand-assets/logo_dark.svg` (versión oscura)
++        -   `public/brand-assets/logo_thumbnail.svg` (versión en miniatura)
++    -   **Recomendación:** Reemplace estos archivos con sus logos correspondientes.
++
++-   **Logo del Widget:** El logo que aparece en el widget de chat.
++    -   **Archivo:** `app/javascript/widget/assets/images/logo.svg`
++    -   **Recomendación:** Reemplace este archivo SVG con el logo de su widget.
++
++### Favicon
++
++Para reemplazar el favicon (el ícono que aparece en la pestaña del navegador), reemplace los siguientes archivos:
++
++-   `public/favicon.ico`
++-   `public/apple-touch-icon.png`
++
++## Personalización de Colores
++
++La paleta de colores de la aplicación se gestiona a través de Tailwind CSS. El archivo de configuración principal de los colores se encuentra en `theme/colors.js`.
++
++### Pasos para Cambiar los Colores
++
++1.  **Abra `theme/colors.js`:** Este archivo contiene un objeto JavaScript que define la paleta de colores de la aplicación, utilizando un sistema de escalas de colores (por ejemplo, `azul-50`, `azul-100`, `azul-200`, etc.).
++
++2.  **Modifique los Valores de los Colores:**
++    -   Puede cambiar los valores hexadecimales de los colores existentes para que coincidan con la paleta de su marca. Por ejemplo, si desea cambiar el color primario, deberá modificar las variables `azul`.
++    -   La configuración utiliza un formato `hsl` o `rgb` para los colores, así que asegúrese de que sus nuevos valores de color sigan el mismo formato.
++
++3.  **Recompile los Activos:** Después de modificar los colores, deberá recompilar los activos de JavaScript y CSS para que los cambios surtan efecto. Puede hacerlo ejecutando el siguiente comando:
++
++    ```bash
++    pnpm dev
++    ```
++
++    O, si está en un entorno de producción, deberá reconstruir los activos según los procedimientos de implementación de su entorno.
++
++Al seguir esta guía, puede personalizar eficazmente los logos y colores de su instancia de Chatwoot para alinearla con la identidad visual de su marca.
+diff --git a/HOST_REFERENCES.md b/HOST_REFERENCES.md
+new file mode 100644
+index 00000000..48f6bf90
+--- /dev/null
++++ b/HOST_REFERENCES.md
+@@ -0,0 +1,36 @@
++# Referencias de Host de Chatwoot
++
++Este documento enumera los archivos clave en el código fuente donde se hace referencia a los hosts `chatwoot.com`. Esta lista es útil para fines de "rebranding" o "white-labeling", ya que le ayuda a identificar rápidamente dónde necesita reemplazar las URL específicas de Chatwoot.
++
++La siguiente lista fue generada buscando `chatwoot.com` y excluyendo archivos de prueba, dependencias y archivos de documentación.
++
++## Archivos de Configuración y Scripts
++
++- `config/initializers/devise.rb`: Contiene configuraciones para la autenticación de usuarios.
++- `.env.example`: Archivo de ejemplo de variables de entorno, que puede contener URLs predeterminadas.
++- `lib/chatwoot_hub.rb`: Lógica relacionada con el Chatwoot Hub.
++- `deployment/setup_20.04.sh`: Scripts de implementación que pueden contener URLs hardcodeadas.
++- `deployment/setup_18.04.sh`: Scripts de implementación que pueden contener URLs hardcodeadas.
++
++## Backend (Rails)
++
++- `app/views/super_admin/settings/show.html.erb`: Vistas de administrador que pueden mostrar URLs.
++- `app/views/mailers/administrator_notifications/account_notification_mailer/account_deletion_for_inactivity.liquid`: Plantillas de correo electrónico que contienen enlaces.
++- `app/presenters/mail_presenter.rb`: Lógica de presentación para correos electrónicos.
++- `app/controllers/public_controller.rb`: Controladores públicos que pueden manejar redireccionamientos o enlaces.
++- `app/mailers/application_mailer.rb`: Configuración base para los mailers de la aplicación.
++- `app/mailers/conversation_reply_mailer.rb`: Plantillas de correo electrónico para respuestas de conversación.
++
++## Frontend (JavaScript/Vue)
++
++- `app/javascript/entrypoints/v3app.js`: Punto de entrada principal para la aplicación de JavaScript.
++- `app/javascript/v3/views/auth/signup/components/Signup/Form.vue`: Componente de formulario de registro.
++- `app/javascript/dashboard/components/widgets/AICTAModal.vue`: Componentes de la interfaz de usuario que pueden contener enlaces a documentación o sitios externos.
++- `app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue`: Componente de caja de respuesta.
++- `app/javascript/dashboard/routes/dashboard/settings/inbox/settingsPage/ConfigurationPage.vue`: Página de configuración de la bandeja de entrada.
++- `app/javascript/dashboard/constants/globals.js`: Archivo de constantes globales.
++- `app/javascript/dashboard/components-next/captain/pageComponents/emptyStates/captainEmptyStateContent.js`: Contenido para estados vacíos de la interfaz de usuario.
++- `app/javascript/dashboard/components-next/Campaigns/EmptyState/CampaignEmptyStateContent.js`: Contenido para estados vacíos de campañas.
++- `app/javascript/dashboard/components-next/sidebar/SidebarChangelogCard.vue`: Tarjeta de registro de cambios en la barra lateral.
++- `app/javascript/dashboard/components-next/sidebar/SidebarProfileMenu.vue`: Menú de perfil en la barra lateral.
++- `app/javascript/shared/constants/links.js`: Archivo dedicado a almacenar URLs y enlaces.
+diff --git a/UI_NAME_REFERENCES.md b/UI_NAME_REFERENCES.md
+new file mode 100644
+index 00000000..2582f9c8
+--- /dev/null
++++ b/UI_NAME_REFERENCES.md
+@@ -0,0 +1,56 @@
++# Referencias del Nombre "Chatwoot" en la Interfaz de Usuario
++
++Este documento describe las ubicaciones clave en el código fuente donde se utiliza el nombre "Chatwoot" en la interfaz de usuario. Esta guía es esencial para cualquiera que busque realizar un "rebranding" completo o "white-labeling" de la plataforma, asegurando que todas las menciones del nombre de la aplicación sean reemplazadas.
++
++## Manifiesto de la Aplicación Web Progresiva (PWA)
++
++El manifiesto PWA define el nombre de la aplicación, los iconos y otros detalles que se utilizan cuando un usuario "instala" la aplicación en su dispositivo.
++
++-   **Archivo:** `public/manifest.json`
++-   **Claves a Modificar:** Deberá cambiar los valores de `short_name` y `name` en este archivo para que reflejen el nombre de su aplicación.
++
++    ```json
++    {
++      "short_name": "Chatwoot",
++      "name": "Chatwoot",
++      "...": "..."
++    }
++    ```
++
++## Archivos de Internacionalización (i18n)
++
++La mayoría del texto visible en la interfaz de usuario, incluido el nombre de la aplicación, se gestiona a través de archivos de internacionalización (i18n). Cambiar el nombre en estos archivos lo actualizará en todo el panel de control.
++
++-   **Ubicación Principal:** `app/javascript/dashboard/i18n/locale/en/`
++-   **Archivos Clave:**
++    -   `generalSettings.json`: A menudo contiene el nombre de la aplicación utilizado en varias configuraciones.
++    -   `login.json`: Para la página de inicio de sesión.
++    -   `signup.json`: Para la página de registro.
++    -   `resetPassword.json`: Para la página de restablecimiento de contraseña.
++-   **Recomendación:** Busque "Chatwoot" en todos los archivos `.json` dentro del directorio `app/javascript/dashboard/i18n/locale/en/` y reemplace las apariciones por el nombre de su aplicación. Después, deberá asegurarse de que su proceso de compilación actualice los archivos de idioma para otros idiomas si es necesario.
++
++## Títulos de Página y Metadatos
++
++El título principal de la aplicación que aparece en la pestaña del navegador se define en las vistas principales de Rails.
++
++-   **Archivo:** `app/views/layouts/dashboard.html.erb`
++-   **Línea a Modificar:** Busque la etiqueta `<title>` y reemplace "Chatwoot" por el nombre de su aplicación.
++
++    ```html
++    <title>
++      <%= @page_title.present? ? "#{@page_title} - Chatwoot" : "Chatwoot" %>
++    </title>
++    ```
++
++## Componentes de Vue y Texto Hardcodeado
++
++Aunque la mayoría del texto se maneja a través de i18n, algunas apariciones del nombre "Chatwoot" pueden estar hardcodeadas directamente en los componentes de Vue, especialmente en contenido de marketing o informativo.
++
++-   **Ubicaciones Comunes:**
++    -   `app/javascript/dashboard/components-next/sidebar/SidebarChangelogCard.vue`: Puede contener enlaces o texto sobre las actualizaciones de Chatwoot.
++    -   `app/javascript/v3/views/auth/signup/components/Signup/Form.vue`: La página de registro puede tener texto adicional de la marca.
++    -   `app.json`: Puede contener el nombre "Chatwoot" en la configuración de la aplicación Heroku.
++
++-   **Recomendación:** Realice una búsqueda global (sin distinguir entre mayúsculas y minúsculas) de "Chatwoot" en todos los archivos `.vue` y `.js` para encontrar y reemplazar cualquier aparición hardcodeada que no se gestione a través de i18n.
++
++Al actualizar estas ubicaciones clave, puede eliminar eficazmente las referencias al nombre "Chatwoot" de la interfaz de usuario de la aplicación.
+diff --git a/app/controllers/super_admin/installation_configs_controller.rb b/app/controllers/super_admin/installation_configs_controller.rb
+index e888b91e..fc6348b7 100644
+--- a/app/controllers/super_admin/installation_configs_controller.rb
++++ b/app/controllers/super_admin/installation_configs_controller.rb
+@@ -22,7 +22,7 @@ class SuperAdmin::InstallationConfigsController < SuperAdmin::ApplicationControl
+   # this will be used to set the records shown on the `index` action.
+   #
+   def scoped_resource
+-    resource_class.editable
++    resource_class
+   end
+
+   def create
+diff --git a/app/javascript/shared/constants/links.js b/app/javascript/shared/constants/links.js
+index 4797cec4..df4f1717 100644
+--- a/app/javascript/shared/constants/links.js
++++ b/app/javascript/shared/constants/links.js
+@@ -8,4 +8,4 @@ export const REPLY_POLICY = {
+   TIKTOK: 'https://business-api.tiktok.com/portal/docs?id=1832184236919810',
+ };
+
+-export const CHANGELOG_API_URL = 'https://hub.2.chatwoot.com/changelogs';
++export const CHANGELOG_API_URL = '';
+diff --git a/bin/activate_voice.sh b/bin/activate_voice.sh
+new file mode 100644
+index 00000000..8ba729a0
+--- /dev/null
++++ b/bin/activate_voice.sh
+@@ -0,0 +1,55 @@
++#!/bin/bash
++
++# This script activates the Twilio Voice Channel feature by:
++# 1. Setting the installation pricing plan to 'enterprise'
++# 2. Setting a high license quantity
++# 3. Enabling the 'channel_voice' feature flag for all accounts
++# 4. Disabling telemetry and phone-home reporting
++
++echo "Activating Twilio Voice Channel feature and disabling telemetry..."
++
++# Use rails runner to execute Ruby code within the Rails environment
++bundle exec rails runner "
++begin
++  # 1. Set the installation pricing plan to 'enterprise'
++  # This unlocks premium features in the UI and allows bypassing community-only restrictions.
++  plan = InstallationConfig.find_or_initialize_by(name: 'INSTALLATION_PRICING_PLAN')
++  plan.value = 'enterprise'
++  plan.locked = false
++  plan.save!
++  puts 'Successfully set INSTALLATION_PRICING_PLAN to enterprise.'
++
++  # 2. Set a high number of licenses
++  # This ensures that you don't hit agent limits after switching to a premium plan.
++  quantity = InstallationConfig.find_or_initialize_by(name: 'INSTALLATION_PRICING_PLAN_QUANTITY')
++  quantity.value = 1000
++  quantity.locked = false
++  quantity.save!
++  puts 'Successfully set INSTALLATION_PRICING_PLAN_QUANTITY to 1000.'
++
++  # 3. Enable 'channel_voice' for all existing accounts
++  # This activates the feature flag at the account level.
++  Account.find_each do |account|
++    account.enable_features!(:channel_voice)
++    puts \"Enabled Voice Channel feature flag for Account: #{account.id} (#{account.name})\"
++  end
++
++  # 4. Remove premium config reset warning if it exists in Redis
++  if defined?(Redis::Alfred)
++    Redis::Alfred.delete(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING)
++    puts 'Cleared premium config reset warning.'
++  end
++
++  # Clear global cache to ensure the changes are picked up immediately by the application
++  GlobalConfig.clear_cache
++  puts 'Global cache cleared.'
++
++  puts 'Twilio Voice Channel activation completed successfully.'
++  puts 'Telemetry reporting has been bypassed at the code level.'
++  puts 'Note: It is still recommended to set DISABLE_TELEMETRY=true in your environment variables.'
++rescue => e
++  puts \"Error during activation: #{e.message}\"
++  puts e.backtrace.first(5)
++  exit 1
++end
++"
+diff --git a/bin/nullify_chatwoot_urls.sh b/bin/nullify_chatwoot_urls.sh
+new file mode 100755
+index 00000000..02dd79e5
+--- /dev/null
++++ b/bin/nullify_chatwoot_urls.sh
+@@ -0,0 +1,25 @@
++#!/bin/bash
++
++# This script replaces Chatwoot telemetry and reporting URLs with null or localhost
++# to prevent any outgoing communication to Chatwoot servers.
++
++echo "Nullifying Chatwoot telemetry URLs..."
++
++# Define targets
++TARGET_DOMAINS=(
++  "hub.2.chatwoot.com"
++  "app.chatwoot.com"
++  "staging.chatwoot.com"
++  "api.chatwoot.com"
++)
++
++for domain in "${TARGET_DOMAINS[@]}"; do
++  echo "Processing domain: $domain"
++  # Replace with localhost to ensure any stray calls fail quickly and don't leak data
++  grep -rl "$domain" . --exclude-dir={node_modules,vendor,tmp,log,.git} | xargs -r sed -i "s|$domain|localhost|g"
++done
++
++# Specifically nullify some known constants in JS
++sed -i "s|export const CHANGELOG_API_URL = '.*'|export const CHANGELOG_API_URL = ''|g" app/javascript/shared/constants/links.js
++
++echo "Successfully nullified known Chatwoot telemetry domains."
+diff --git a/branding.sh b/branding.sh
+new file mode 100755
+index 00000000..fb9b33a2
+--- /dev/null
++++ b/branding.sh
+@@ -0,0 +1,78 @@
++#!/bin/bash
++
++# Este script reemplaza todas las apariciones de chatwoot.com y chwt.app
++# con un dominio especificado.
++# - Crea un respaldo .back SOLO de los archivos que realmente modifica.
++# - Genera un archivo de registro (branding_changed_files.txt) con una lista de todos los archivos modificados.
++
++# Salir inmediatamente si un comando falla.
++set -e
++
++# --- Configuración ---
++REPLACE_DOMAIN="inexistent.com"
++SEARCH_STRINGS=("chatwoot.com" "chwt.app")
++# Patrón ERE para grep
++SEARCH_PATTERN=$(IFS=\|; echo "${SEARCH_STRINGS[*]}")
++
++LOG_FILE="branding_changed_files.txt"
++
++# Scripts a excluir de la modificación.
++EXCLUDE_FILES=("branding.sh" "restore.sh" "modify-sidebar.js" "modify-chat-list.js")
++EXCLUDE_PATTERN=$(printf -- "--exclude=%s " "${EXCLUDE_FILES[@]}")
++
++echo "Iniciando el script de reemplazo de dominios..."
++
++# Limpiar el archivo de registro al inicio.
++> "$LOG_FILE"
++
++# --- Lógica Principal ---
++# 1. Encontrar la lista de archivos que contienen las cadenas de búsqueda.
++echo "Identificando archivos para modificar..."
++# Usamos `grep -l` para obtener solo los nombres de los archivos.
++# Se excluyen directorios comunes y los propios scripts.
++FILES_TO_MODIFY=$(grep -rliE "$SEARCH_PATTERN" . \
++    --exclude-dir={.git,node_modules,tmp,vendor} \
++    $EXCLUDE_PATTERN)
++
++if [ -z "$FILES_TO_MODIFY" ]; then
++    echo "No se encontraron archivos que necesiten modificación."
++    exit 0
++fi
++
++echo "Se modificarán los siguientes archivos:"
++echo "$FILES_TO_MODIFY"
++echo "---"
++
++# 2. Iterar sobre la lista, crear respaldo, modificar y registrar.
++echo "$FILES_TO_MODIFY" | while IFS= read -r file; do
++    # Omitir líneas vacías que puedan aparecer en la salida de grep
++    if [ -z "$file" ]; then
++        continue
++    fi
++
++    echo "Procesando '$file'..."
++
++    # Crear respaldo si aún no existe.
++    if [ ! -f "${file}.back" ]; then
++        cp "$file" "${file}.back"
++    fi
++
++    # Realizar el reemplazo in-situ (sin crear otro .back).
++    # Se construyen múltiples expresiones -e para sed.
++    SED_EXPRESSIONS=""
++    for search_string in "${SEARCH_STRINGS[@]}"; do
++        SED_EXPRESSIONS+="-e s/${search_string}/${REPLACE_DOMAIN}/g "
++    done
++
++    # Ejecutar sed con todas las expresiones.
++    # shellcheck disable=SC2086
++    sed -i $SED_EXPRESSIONS "$file"
++
++    # Registrar el archivo modificado.
++    echo "$file" >> "$LOG_FILE"
++done
++
++echo "---"
++echo "Reemplazo de dominios completado."
++echo "Se han creado archivos de respaldo .back para todos los archivos modificados."
++echo "Una lista de los archivos modificados se ha guardado en '$LOG_FILE'."
+diff --git a/disable-update-check.sh b/disable-update-check.sh
+new file mode 100755
+index 00000000..41d8396f
+--- /dev/null
++++ b/disable-update-check.sh
+@@ -0,0 +1,33 @@
++#!/bin/bash
++
++# Este script desactiva el banner de notificación de actualización comentando
++# el componente UpdateBanner en el archivo principal de la aplicación.
++# Crea un archivo de respaldo .back del archivo modificado.
++
++# Salir inmediatamente si un comando falla.
++set -e
++
++# --- Configuración ---
++APP_VUE_FILE="app/javascript/dashboard/App.vue"
++SEARCH_PATTERN="<UpdateBanner :latest-chatwoot-version=\"latestChatwootVersion\" />"
++
++echo "Iniciando el script para desactivar la verificación de actualizaciones..."
++
++# --- Lógica Principal ---
++# Verificar si el archivo App.vue existe.
++if [ ! -f "$APP_VUE_FILE" ]; then
++    echo "Advertencia: Archivo '$APP_VUE_FILE' no encontrado. Omitiendo."
++    exit 0
++fi
++
++# Comentar la línea que contiene el componente UpdateBanner.
++# Usamos sed para encontrar la línea y envolverla en comentarios HTML.
++# Crear respaldo si aún no existe.
++if [ ! -f "${APP_VUE_FILE}.back" ]; then
++    cp "$APP_VUE_FILE" "${APP_VUE_FILE}.back"
++fi
++
++echo "Comentando el componente UpdateBanner en '$APP_VUE_FILE'..."
++sed -i "s|${SEARCH_PATTERN}|<!-- ${SEARCH_PATTERN} -->|" "$APP_VUE_FILE"
++
++echo "El banner de actualización ha sido desactivado exitosamente."
+diff --git a/hide-extra-tabs.js b/hide-extra-tabs.js
+new file mode 100755
+index 00000000..4ac358b1
+--- /dev/null
++++ b/hide-extra-tabs.js
+@@ -0,0 +1,125 @@
++#!/usr/bin/env node
++
++// Este script modifica ChatList.vue para ocultar las pestañas "Todos" y "No asignados"
++// a los usuarios que no son administradores.
++
++const fs = require('fs');
++const path = require('path');
++
++const CHAT_LIST_FILE_PATH = path.join(__dirname, 'app/javascript/dashboard/components/ChatList.vue');
++const BACKUP_FILE_PATH = `${CHAT_LIST_FILE_PATH}.back`;
++
++/**
++ * Encuentra el bloque de texto completo de una propiedad computada o función en un string.
++ * @param {string} content El contenido completo del string a buscar.
++ * @param {string} startPattern El inicio del bloque de código.
++ * @returns {{startIndex: number, endIndex: number, block: string}|null}
++ */
++function findCodeBlock(content, startPattern) {
++  const startIndex = content.indexOf(startPattern);
++  if (startIndex === -1) {
++    return null;
++  }
++
++  let openParenIndex = content.indexOf('(', startIndex);
++  let braceCount = 1;
++  let currentIndex = openParenIndex + 1;
++
++  while (currentIndex < content.length && braceCount > 0) {
++    if (content[currentIndex] === '(' || content[currentIndex] === '{') {
++      braceCount++;
++    } else if (content[currentIndex] === ')' || content[currentIndex] === '}') {
++      braceCount--;
++    }
++    currentIndex++;
++  }
++
++  if (braceCount !== 0) {
++    return null; // Paréntesis/llaves no coincidentes
++  }
++
++  return {
++    startIndex,
++    endIndex: currentIndex,
++    block: content.substring(startIndex, currentIndex),
++  };
++}
++
++
++// --- Lógica Principal ---
++try {
++  if (!fs.existsSync(CHAT_LIST_FILE_PATH)) {
++    console.warn(`Advertencia: Archivo de ChatList no encontrado en ${CHAT_LIST_FILE_PATH}. Omitiendo.`);
++    process.exit(0);
++  }
++
++  if (!fs.existsSync(BACKUP_FILE_PATH)) {
++    console.log(`Creando archivo de respaldo en ${BACKUP_FILE_PATH}...`);
++    fs.copyFileSync(CHAT_LIST_FILE_PATH, BACKUP_FILE_PATH);
++  } else {
++    console.log('El archivo de respaldo ya existe.');
++  }
++
++  let fileContent = fs.readFileSync(CHAT_LIST_FILE_PATH, 'utf8');
++  let modified = false;
++
++  // 1. Inyectar la importación de useAdmin.
++  const importMarker = "import { useAdmin } from 'dashboard/composables/useAdmin';";
++  const importAnchor = "import { useI18n } from 'vue-i18n';";
++  if (!fileContent.includes(importMarker)) {
++    fileContent = fileContent.replace(importAnchor, `${importAnchor}\n${importMarker}`);
++    console.log('Importación de useAdmin inyectada.');
++    modified = true;
++  }
++
++  // 2. Inyectar la llamada a useAdmin.
++  const useAdminMarker = "const { isAdmin } = useAdmin();";
++  const useAdminAnchor = "const { t } = useI18n();";
++  if (!fileContent.includes(useAdminMarker)) {
++    fileContent = fileContent.replace(useAdminAnchor, `${useAdminAnchor}\nconst { isAdmin } = useAdmin();`);
++    console.log('Llamada a useAdmin inyectada.');
++    modified = true;
++  }
++
++  // 3. Reemplazar la propiedad computada assigneeTabItems.
++  const startPattern = "const assigneeTabItems = computed(() => {";
++  const blockToReplace = findCodeBlock(fileContent, startPattern);
++
++  const newCode = `const assigneeTabItems = computed(() => {
++  const allTabs = filterItemsByPermission(
++    ASSIGNEE_TYPE_TAB_PERMISSIONS,
++    userPermissions.value,
++    item => item.permissions
++  ).map(({ key, count: countKey }) => ({
++    key,
++    name: t(\`CHAT_LIST.ASSIGNEE_TYPE_TABS.\${key}\`),
++    count: conversationStats.value[countKey] || 0,
++  }));
++
++  if (!isAdmin.value) {
++    const hiddenTabs = ['all', 'unassigned'];
++    return allTabs.filter(tab => !hiddenTabs.includes(tab.key));
++  }
++
++  return allTabs;
++});`;
++
++  if (blockToReplace && blockToReplace.block.trim() !== newCode.trim()) {
++    fileContent = fileContent.substring(0, blockToReplace.startIndex) + newCode + fileContent.substring(blockToReplace.endIndex);
++    console.log('Propiedad computada "assigneeTabItems" reemplazada para ocultar pestañas adicionales.');
++    modified = true;
++  } else if (!blockToReplace) {
++    console.warn('Advertencia: No se pudo encontrar el bloque de código de assigneeTabItems para reemplazar.');
++  }
++
++  if (modified) {
++    fs.writeFileSync(CHAT_LIST_FILE_PATH, fileContent, 'utf8');
++    console.log('Archivo ChatList.vue modificado exitosamente.');
++  } else {
++    console.log('No se necesitaron modificaciones en ChatList.vue.');
++  }
++
++} catch (error) {
++  console.error('Ocurrió un error:', error);
++  process.exit(1);
++}
+diff --git a/lib/chatwoot_hub.rb b/lib/chatwoot_hub.rb
+index e6b2824d..faa8d337 100644
+--- a/lib/chatwoot_hub.rb
++++ b/lib/chatwoot_hub.rb
+@@ -83,6 +83,8 @@ class ChatwootHub
+   end
+
+   def self.sync_with_hub(refresh_billing: false)
++    return { 'plan' => 'enterprise', 'plan_quantity' => 1000, 'version' => Chatwoot.config[:version] } if ENV['DISABLE_TELEMETRY'] == 'true'
++
+     begin
+       info = instance_config
+       info[:refresh_billing] = true if refresh_billing
+@@ -94,10 +96,12 @@ class ChatwootHub
+     rescue StandardError => e
+       ChatwootExceptionTracker.new(e).capture_exception
+     end
+-    parsed_response
++    parsed_response || { 'plan' => 'enterprise', 'plan_quantity' => 1000, 'version' => Chatwoot.config[:version] }
+   end
+
+   def self.register_instance(company_name, owner_name, owner_email)
++    return if ENV['DISABLE_TELEMETRY'] == 'true'
++
+     info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
+     RestClient.post(registration_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
+   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
+@@ -107,6 +111,8 @@ class ChatwootHub
+   end
+
+   def self.send_push(fcm_options)
++    return if ENV['DISABLE_TELEMETRY'] == 'true'
++
+     send_push_with_response(fcm_options)
+   rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
+     Rails.logger.error "Exception: #{e.message}"
+diff --git a/modify-chat-list.js b/modify-chat-list.js
+new file mode 100755
+index 00000000..e27fb69d
+--- /dev/null
++++ b/modify-chat-list.js
+@@ -0,0 +1,127 @@
++#!/usr/bin/env node
++
++// Este script modifica ChatList.vue para ocultar la pestaña "Todos" a los usuarios
++// que no son administradores. Sigue el patrón robusto de modify-sidebar.js.
++
++const fs = require('fs');
++const path = require('path');
++
++const CHAT_LIST_FILE_PATH = path.join(__dirname, 'app/javascript/dashboard/components/ChatList.vue');
++const BACKUP_FILE_PATH = `${CHAT_LIST_FILE_PATH}.back`;
++
++/**
++ * Encuentra el bloque de texto completo de una propiedad computada o función en un string.
++ * @param {string} content El contenido completo del string a buscar.
++ * @param {string} startPattern El inicio del bloque de código (ej. "const assigneeTabItems = computed(() => {").
++ * @returns {{startIndex: number, endIndex: number, block: string}|null}
++ */
++function findCodeBlock(content, startPattern) {
++  const startIndex = content.indexOf(startPattern);
++  if (startIndex === -1) {
++    return null;
++  }
++
++  // Asumimos que el bloque es una función o propiedad computada, por lo que buscamos el paréntesis de apertura.
++  let openParenIndex = content.indexOf('(', startIndex);
++  let braceCount = 1;
++  let currentIndex = openParenIndex + 1;
++
++  while (currentIndex < content.length && braceCount > 0) {
++    if (content[currentIndex] === '(' || content[currentIndex] === '{') {
++      braceCount++;
++    } else if (content[currentIndex] === ')' || content[currentIndex] === '}') {
++      braceCount--;
++    }
++    currentIndex++;
++  }
++
++  if (braceCount !== 0) {
++    return null; // Paréntesis/llaves no coincidentes
++  }
++
++  return {
++    startIndex,
++    endIndex: currentIndex,
++    block: content.substring(startIndex, currentIndex),
++  };
++}
++
++
++// --- Lógica Principal ---
++try {
++  if (!fs.existsSync(CHAT_LIST_FILE_PATH)) {
++    console.warn(`Advertencia: Archivo de ChatList no encontrado en ${CHAT_LIST_FILE_PATH}. Omitiendo.`);
++    process.exit(0);
++  }
++
++  // Crear un respaldo si aún no existe.
++  if (!fs.existsSync(BACKUP_FILE_PATH)) {
++    console.log(`Creando archivo de respaldo en ${BACKUP_FILE_PATH}...`);
++    fs.copyFileSync(CHAT_LIST_FILE_PATH, BACKUP_FILE_PATH);
++  } else {
++    console.log('El archivo de respaldo ya existe.');
++  }
++
++  let fileContent = fs.readFileSync(CHAT_LIST_FILE_PATH, 'utf8');
++  let modified = false;
++
++  // 1. Inyectar la importación de useAdmin.
++  const importMarker = "import { useAdmin } from 'dashboard/composables/useAdmin';";
++  const importAnchor = "import { useI18n } from 'vue-i18n';";
++  if (!fileContent.includes(importMarker)) {
++    fileContent = fileContent.replace(importAnchor, `${importAnchor}\n${importMarker}`);
++    console.log('Importación de useAdmin inyectada.');
++    modified = true;
++  }
++
++  // 2. Inyectar la llamada a useAdmin.
++  const useAdminMarker = "const { isAdmin } = useAdmin();";
++  const useAdminAnchor = "const { t } = useI18n();";
++  if (!fileContent.includes(useAdminMarker)) {
++    fileContent = fileContent.replace(useAdminAnchor, `${useAdminAnchor}\nconst { isAdmin } = useAdmin();`);
++    console.log('Llamada a useAdmin inyectada.');
++    modified = true;
++  }
++
++  // 3. Reemplazar la propiedad computada assigneeTabItems.
++  const startPattern = "const assigneeTabItems = computed(() => {";
++  const blockToReplace = findCodeBlock(fileContent, startPattern);
++
++  const newCode = `const assigneeTabItems = computed(() => {
++  const allTabs = filterItemsByPermission(
++    ASSIGNEE_TYPE_TAB_PERMISSIONS,
++    userPermissions.value,
++    item => item.permissions
++  ).map(({ key, count: countKey }) => ({
++    key,
++    name: t(\`CHAT_LIST.ASSIGNEE_TYPE_TABS.\${key}\`),
++    count: conversationStats.value[countKey] || 0,
++  }));
++
++  if (!isAdmin.value) {
++    return allTabs.filter(tab => tab.key !== 'all');
++  }
++
++  return allTabs;
++});`;
++
++  if (blockToReplace && blockToReplace.block.trim() !== newCode.trim()) {
++    fileContent = fileContent.substring(0, blockToReplace.startIndex) + newCode + fileContent.substring(blockToReplace.endIndex);
++    console.log('Propiedad computada "assigneeTabItems" reemplazada.');
++    modified = true;
++  } else if (!blockToReplace) {
++    console.warn('Advertencia: No se pudo encontrar el bloque de código de assigneeTabItems para reemplazar.');
++  }
++
++  // Escribir el archivo solo si se realizaron cambios.
++  if (modified) {
++    fs.writeFileSync(CHAT_LIST_FILE_PATH, fileContent, 'utf8');
++    console.log('Archivo ChatList.vue modificado exitosamente.');
++  } else {
++    console.log('No se necesitaron modificaciones en ChatList.vue.');
++  }
++
++} catch (error) {
++  console.error('Ocurrió un error:', error);
++  process.exit(1);
++}
+diff --git a/modify-sidebar.js b/modify-sidebar.js
+new file mode 100755
+index 00000000..9727304f
+--- /dev/null
++++ b/modify-sidebar.js
+@@ -0,0 +1,123 @@
++#!/usr/bin/env node
++
++// Este script modifica el componente Sidebar.vue para ocultar elementos del menú.
++// Específicamente, elimina la sección 'Captain' y comenta varias opciones
++// de configuración.
++// Crea un archivo de respaldo .back antes de modificar el archivo.
++
++const fs = require('fs');
++const path = require('path');
++
++const SIDEBAR_FILE_PATH = path.join(__dirname, 'app/javascript/dashboard/components-next/sidebar/Sidebar.vue');
++const BACKUP_FILE_PATH = `${SIDEBAR_FILE_PATH}.back`;
++
++/**
++ * Encuentra el bloque de texto completo de un objeto JavaScript en un string basado en un patrón de inicio.
++ * Maneja correctamente las llaves anidadas.
++ * @param {string} content El contenido completo del string a buscar.
++ * @param {string} startPattern Un string único que identifica el inicio del objeto.
++ * @returns {{startIndex: number, endIndex: number, block: string}|null}
++ */
++function findObjectBlock(content, startPattern) {
++  const patternIndex = content.indexOf(startPattern);
++  if (patternIndex === -1) {
++    return null;
++  }
++
++  // Encuentra la llave de apertura del objeto literal `{` que precede al patrón.
++  let startIndex = content.lastIndexOf('{', patternIndex);
++  if (startIndex === -1) {
++    return null;
++  }
++
++  let braceCount = 1;
++  let currentIndex = startIndex + 1;
++
++  while (currentIndex < content.length && braceCount > 0) {
++    if (content[currentIndex] === '{') {
++      braceCount++;
++    } else if (content[currentIndex] === '}') {
++      braceCount--;
++    }
++    currentIndex++;
++  }
++
++  if (braceCount !== 0) {
++    return null; // Llaves no coincidentes
++  }
++
++  // El bloque termina en la llave de cierre. Busca la coma final si existe.
++  let endIndex = currentIndex;
++  while (endIndex < content.length && /\s|,/.test(content[endIndex])) {
++    if (content[endIndex] === ',') {
++      endIndex++;
++      break;
++    }
++    endIndex++;
++  }
++
++  return {
++    startIndex,
++    endIndex,
++    block: content.substring(startIndex, endIndex),
++  };
++}
++
++// --- Lógica Principal ---
++try {
++  // Verificar si el archivo de la barra lateral existe.
++  if (!fs.existsSync(SIDEBAR_FILE_PATH)) {
++    console.warn(`Advertencia: Archivo de la barra lateral no encontrado en ${SIDEBAR_FILE_PATH}. Omitiendo modificación.`);
++    process.exit(0);
++  }
++
++  // Crear un respaldo si aún no existe.
++  if (!fs.existsSync(BACKUP_FILE_PATH)) {
++    console.log(`Creando archivo de respaldo en ${BACKUP_FILE_PATH}...`);
++    fs.copyFileSync(SIDEBAR_FILE_PATH, BACKUP_FILE_PATH);
++  } else {
++    console.log('El archivo de respaldo ya existe, no se creará uno nuevo.');
++  }
++
++  let fileContent = fs.readFileSync(SIDEBAR_FILE_PATH, 'utf8');
++
++  // --- Eliminar el elemento del menú "Captain" ---
++  console.log("Eliminando la sección 'Captain'...");
++  const captainBlock = findObjectBlock(fileContent, "name: 'Captain',");
++  if (captainBlock) {
++    fileContent = fileContent.substring(0, captainBlock.startIndex) + fileContent.substring(captainBlock.endIndex);
++    console.log("'Captain' sección eliminada exitosamente.");
++  } else {
++    console.warn("Advertencia: Sección 'Captain' no encontrada. Omitiendo eliminación.");
++  }
++
++  // --- Comentar la sección de configuración ---
++  console.log("Comentando la sección de configuración...");
++  const settingsStartPattern = "name: 'Settings Audit Logs',";
++  const settingsEndPattern = "to: accountScopedRoute('billing_settings_index'),";
++
++  // Usar el contenido del archivo ya modificado para el segundo patrón
++  const settingsStartBlock = findObjectBlock(fileContent, settingsStartPattern);
++  const settingsEndBlock = findObjectBlock(fileContent, settingsEndPattern);
++
++  if (settingsStartBlock && settingsEndBlock) {
++    const commentStartIndex = settingsStartBlock.startIndex;
++    const commentEndIndex = settingsEndBlock.endIndex;
++
++    const originalBlock = fileContent.substring(commentStartIndex, commentEndIndex);
++    const commentedBlock = `/* ${originalBlock} */`;
++
++    fileContent = fileContent.substring(0, commentStartIndex) + commentedBlock + fileContent.substring(commentEndIndex);
++    console.log("Sección de configuración comentada exitosamente.");
++  } else {
++    console.warn("Advertencia: Sección de configuración para comentar no encontrada. Omitiendo.");
++  }
++
++  // Escribir el contenido modificado de nuevo en el archivo.
++  fs.writeFileSync(SIDEBAR_FILE_PATH, fileContent, 'utf8');
++  console.log('Archivo de la barra lateral modificado exitosamente.');
++
++} catch (error) {
++  console.error('Ocurrió un error:', error);
++  process.exit(1);
++}
+diff --git a/restore.sh b/restore.sh
+new file mode 100755
+index 00000000..3e91f037
+--- /dev/null
++++ b/restore.sh
+@@ -0,0 +1,30 @@
++#!/bin/bash
++
++# Exit immediately if a command exits with a non-zero status.
++set -e
++
++echo "Starting the restore script..."
++
++# Find all .back files and restore them safely
++# Using find with -print0 and a while read loop with a null delimiter
++# is the safest way to handle filenames with spaces or special characters.
++find . -type f -name "*.back" -print0 | while IFS= read -r -d '' backup_file; do
++    original_file=$(echo "$backup_file" | sed 's/\.back$//')
++    if [ -f "$backup_file" ]; then # Check if the backup file actually exists
++        echo "Restoring '$original_file' from '$backup_file'..."
++        mv -f "$backup_file" "$original_file"
++    else
++        echo "Warning: Backup file '$backup_file' not found, skipping."
++    fi
++done
++
++# Remove log files and other artifacts created by modification scripts
++ARTIFACTS=("branding_changed_files.txt")
++for artifact in "${ARTIFACTS[@]}"; do
++    if [ -f "$artifact" ]; then
++        echo "Removing artifact '$artifact'..."
++        rm -f "$artifact"
++    fi
++done
++
++echo "Restore script finished successfully."
+diff --git a/translate-i18n.sh b/translate-i18n.sh
+new file mode 100755
+index 00000000..b4a08f38
+--- /dev/null
++++ b/translate-i18n.sh
+@@ -0,0 +1,39 @@
++#!/bin/bash
++
++# Este script reemplaza la palabra "Chatwoot" por "Sempitecno" en todos
++# los archivos de internacionalización (i18n) de la aplicación.
++# Crea un archivo de respaldo .back para cada archivo modificado.
++
++# Salir inmediatamente si un comando falla.
++set -e
++
++# --- Configuración ---
++I18N_DIRECTORY="app/javascript/dashboard/i18n/"
++SEARCH_WORD="Chatwoot"
++REPLACE_WORD="Sempitecno"
++
++echo "Iniciando el script de traducción de i18n..."
++
++# --- Lógica Principal ---
++# Verificar si el directorio de i18n existe.
++if [ ! -d "$I18N_DIRECTORY" ]; then
++    echo "Advertencia: Directorio '$I18N_DIRECTORY' no encontrado. Omitiendo."
++    exit 0
++fi
++
++# Encontrar todos los archivos .json en el directorio de i18n y sus subdirectorios.
++# Para cada archivo, usar sed para reemplazar la palabra (ignorando mayúsculas y minúsculas)
++# y crear un archivo de respaldo (si aún no existe).
++find "$I18N_DIRECTORY" -type f -name "*.json" -print0 | while IFS= read -r -d '' file; do
++    echo "Procesando '$file'..."
++    if [ ! -f "${file}.back" ]; then
++        cp "$file" "${file}.back"
++    fi
++    sed -i "s/${SEARCH_WORD}/${REPLACE_WORD}/gi" "$file"
++done
++
++# --- Limpieza ---
++# Eliminar cualquier archivo .back vacío que sed pueda haber creado.
++find "$I18N_DIRECTORY" -type f -name "*.back" -size 0 -delete
++
++echo "Traducción de i18n completada. Se han creado archivos de respaldo .back para todos los archivos modificados."
+diff --git a/update-pwa-manifest.sh b/update-pwa-manifest.sh
+new file mode 100755
+index 00000000..a97cc544
+--- /dev/null
++++ b/update-pwa-manifest.sh
+@@ -0,0 +1,24 @@
++#!/bin/bash
++
++# Define the target file
++TARGET_FILE="public/manifest.json"
++BACKUP_FILE="$TARGET_FILE.back"
++
++# Check if the target file exists
++if [ ! -f "$TARGET_FILE" ]; then
++  echo "Error: El archivo $TARGET_FILE no existe."
++  exit 1
++fi
++
++# Create a backup if it doesn't exist
++if [ ! -f "$BACKUP_FILE" ]; then
++  cp "$TARGET_FILE" "$BACKUP_FILE"
++  echo "Backup de $TARGET_FILE creado en $BACKUP_FILE."
++fi
++
++# Replace "Chatwoot" with "Sempitecno" in name and short_name fields
++sed -i -e 's/"name": "Chatwoot"/"name": "Sempitecno"/' \
++       -e 's/"short_name": "Chatwoot"/"short_name": "Sempitecno"/' "$TARGET_FILE"
++
++echo "El manifiesto PWA ($TARGET_FILE) ha sido actualizado."
++echo "Se ha reemplazado 'Chatwoot' por 'Sempitecno' en los campos name y short_name."
